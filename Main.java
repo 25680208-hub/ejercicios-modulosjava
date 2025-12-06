@@ -4,26 +4,33 @@ public class Main{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("=== REGISTRO DE PRODUCTO ===");
+        System.out.println("=== REGISTRO DE ARTÍCULO BIBLIOGRÁFICO ===");
 
-        System.out.print("Ingresa la referencia del producto: ");
-        String referencia = sc.nextLine();
+        System.out.print("Ingresa el ID del artículo: ");
+        String id = sc.nextLine();
 
-        System.out.print("Ingresa la cantidad actual en stock: ");
-        int stock = sc.nextInt();
+        System.out.print("Ingresa el autor: ");
+        String autor = sc.nextLine();
 
-        System.out.print("Ingresa el precio unitario: ");
-        double precio = sc.nextDouble();
+        System.out.print("¿Está disponible? (true/false): ");
+        boolean disponible = sc.nextBoolean();
+
+        System.out.print("Ingresa el año de publicación: ");
+        int anio = sc.nextInt();
 
         // Crear objeto
-        Producto prod = new Producto(referencia, stock, precio);
+        ArticuloBibliografico articulo = new ArticuloBibliografico(id, autor, disponible, anio);
 
-        System.out.println("\n¿Deseas agregar mercancía? Ingresa la cantidad: ");
-        int entrada = sc.nextInt();
+        System.out.println("\n=== OPCIÓN: RESERVAR ARTÍCULO ===");
+        System.out.print("¿Deseas reservar el artículo? (1 = sí, 2 = no): ");
+        int opcion = sc.nextInt();
 
-        prod.agregarStock(entrada);
+        if (opcion == 1) {
+            articulo.reservar();
+            System.out.println("El artículo ha sido reservado.");
+        }
 
         System.out.println("\n=== RESULTADOS ===");
-        System.out.println("Valor total del stock: $" + prod.calcularValorTotal());
+        System.out.println("¿Es apto para préstamo? " + articulo.esAptoParaPrestamo());
     }
 }
