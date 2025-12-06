@@ -1,81 +1,73 @@
-package app;
-
-import entidad.Vuelo;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Main {
-
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-        // Crear el vuelo con los valores indicados
-        Vuelo vuelo = new Vuelo("IBZ-402", 50, 49);
-        vuelo.setTarifaBase(200.00);
+        Scanner sc = new Scanner(System.in);
 
-        // ============================
-        //     REPORTE 1 (EVALUACIÓN)
-        // ============================
-        System.out.println("(Evaluacion)");
-        System.out.println("Evaluacion:");
-        System.out.println("Atributo                          Dato a usar");
-        System.out.println("Codigo de vuelo(Constructor)      IBZ-402");
-        System.out.println("Capacidad maxima(Constructor)     50");
-        System.out.println("Asientos reservados(Constructor)  49");
-        System.out.println("Tarifa base(Setter)               200.00");
-        System.out.println();
+        // Datos del usuario
+        System.out.print("Ingresa el valor de la temperatura: ");
+        double valor = sc.nextDouble();
 
-        System.out.print("¿Cuántos asientos desea reservar? ");
-        int asientosUsuario;
-        try {
-            asientosUsuario = scanner.nextInt();
-        } catch (Exception e) {
-            System.out.println("Entrada inválida. Se asumirá 0 asientos.");
-            scanner.nextLine(); // limpiar
-            asientosUsuario = 0;
+        System.out.print("Ingresa la unidad (C/F): ");
+        String unidad = sc.next().toUpperCase();
+
+        System.out.print("Ingresa el año de registro: ");
+        int anio = sc.nextInt();
+
+        System.out.print("Ingresa el mes (1-12): ");
+        int mes = sc.nextInt();
+
+        System.out.print("Ingresa el día: ");
+        int dia = sc.nextInt();
+
+        LocalDate fecha = LocalDate.of(anio, mes, dia);
+
+        Temperatura temp = new Temperatura(valor, unidad, fecha);
+
+        int opcion = 0;
+
+        while (opcion != 4) {
+
+            System.out.println("\n===== MENÚ =====");
+            System.out.println("1. Convertir temperatura");
+            System.out.println("2. Evaluar si es extrema");
+            System.out.println("3. Mostrar datos");
+            System.out.println("4. Salir");
+            System.out.print("Elige una opción: ");
+            opcion = sc.nextInt();
+
+            switch (opcion) {
+
+                case 1:
+                    temp.convertir();
+                    System.out.println("Temperatura convertida: " + temp.getValor() + "°" + temp.getUnidad());
+                    break;
+
+                case 2:
+                    if (temp.esExtrema()) {
+                        System.out.println("🔥 La temperatura es EXTREMA.");
+                    } else {
+                        System.out.println("La temperatura NO es extrema.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("\n--- Datos de la Temperatura ---");
+                    System.out.println("Valor: " + temp.getValor() + "°" + temp.getUnidad());
+                    System.out.println("Fecha de registro: " + temp.getFechaRegistro());
+                    break;
+
+                case 4:
+                    System.out.println("Saliendo del programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
         }
 
-        boolean resultadoReservaUsuario = vuelo.reservarAsientos(asientosUsuario);
-
-        // ============================
-        //       REPORTE 2 (RESERVA)
-        // ============================
-        System.out.println();
-        System.out.println("(Reserva)");
-        System.out.println("Reporte de vuelo " + vuelo.getCodigoVuelo());
-
-        if (resultadoReservaUsuario) {
-            System.out.println("Reserva: Exitosa");
-        } else {
-            System.out.println("Reserva: Fallida");
-        }
-
-        System.out.println("Asientos totales reservados: " + vuelo.getAsientosReservados());
-        System.out.printf("Porcentaje de ocupacion: %.1f%%\n", vuelo.porcentajeOcupacion());
-        System.out.printf("Ingreso bruto total: %.1f\n", vuelo.ingresoTotal());
-        System.out.println();
-
-        // ============================
-        //     REPORTE 3 (FINAL)
-        // ============================
-        System.out.println("(Final)");
-        System.out.println("Resultado de la solicitud en vuelo " + vuelo.getCodigoVuelo());
-
-        boolean reservaFinal = vuelo.reservarAsientos(2);
-
-        if (reservaFinal) {
-            System.out.println("Intento de reserva de 2 asientos: Exitosa");
-        } else {
-            System.out.println("Intento de reserva de 2 asientos: Fallido");
-            int disponibles = vuelo.getCapacidadMaxima() - vuelo.getAsientosReservados();
-            System.out.println("Motivo: Capacidad excedida (Solo " + disponibles + " asiento(s) disponible(s))");
-        }
-
-        System.out.println("Reporte final del modulo");
-        System.out.println("Codigo del vuelo: " + vuelo.getCodigoVuelo());
-        System.out.println("Asientos totales reservados: " + vuelo.getAsientosReservados());
-        System.out.printf("Porcentaje de ocupacion: %.1f%%\n", vuelo.porcentajeOcupacion());
-        System.out.printf("Ingreso bruto total: %.1f\n", vuelo.ingresoTotal());
-
-        scanner.close();
+        sc.close();
     }
 }
