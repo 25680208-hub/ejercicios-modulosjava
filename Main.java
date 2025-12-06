@@ -5,49 +5,60 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        // Datos iniciales del usuario
-        System.out.print("Ingresa la marca del vehículo: ");
-        String marca = sc.nextLine();
+        // Crear cuenta
+        System.out.print("Ingresa el número de cuenta: ");
+        String numero = sc.nextLine();
 
-        System.out.print("Ingresa el año de fabricación: ");
-        int anio = sc.nextInt();
+        System.out.print("Ingresa el nombre del titular: ");
+        String nombre = sc.nextLine();
 
-        System.out.print("Ingresa la velocidad máxima: ");
-        int velMax = sc.nextInt();
+        System.out.print("Ingresa el saldo inicial: ");
+        double saldoInicial = sc.nextDouble();
 
-        Automovil auto = new Automovil(marca, anio, velMax);
+        CuentaAhorros cuenta = new CuentaAhorros(numero, nombre, saldoInicial);
 
         int opcion = 0;
 
-        while (opcion != 4) {
+        while (opcion != 5) {
 
-            System.out.println("\n===== MENÚ =====");
-            System.out.println("1. Encender vehículo");
-            System.out.println("2. Calcular antigüedad");
-            System.out.println("3. Mostrar información del vehículo");
-            System.out.println("4. Salir");
+            System.out.println("\n===== MENÚ BANCO =====");
+            System.out.println("1. Depositar");
+            System.out.println("2. Retirar");
+            System.out.println("3. Consultar saldo");
+            System.out.println("4. Mostrar datos de la cuenta");
+            System.out.println("5. Salir");
             System.out.print("Elige una opción: ");
             opcion = sc.nextInt();
 
             switch (opcion) {
 
                 case 1:
-                    System.out.println(auto.encender());
+                    System.out.print("Cantidad a depositar: ");
+                    double dep = sc.nextDouble();
+                    cuenta.depositar(dep);
+                    System.out.println("Depósito realizado. Saldo actual: $" + cuenta.getSaldo());
                     break;
 
                 case 2:
-                    System.out.println("El vehículo tiene " + auto.calcularAntiguedad() + " años de antigüedad.");
+                    System.out.print("Cantidad a retirar: ");
+                    double ret = sc.nextDouble();
+                    cuenta.retirar(ret);
+                    System.out.println("Saldo actual: $" + cuenta.getSaldo());
                     break;
 
                 case 3:
-                    System.out.println("\n--- Datos del Automóvil ---");
-                    System.out.println("Marca: " + auto.getMarca());
-                    System.out.println("Año de fabricación: " + auto.getAnioFabricacion());
-                    System.out.println("Velocidad máxima: " + auto.getVelocidadMaxima() + " km/h");
+                    System.out.println("💰 Saldo actual: $" + cuenta.getSaldo());
                     break;
 
                 case 4:
-                    System.out.println("Saliendo del programa...");
+                    System.out.println("\n--- Datos de la Cuenta ---");
+                    System.out.println("Número de cuenta: " + cuenta.getNumeroCuenta());
+                    System.out.println("Titular: " + cuenta.getNombreTitular());
+                    System.out.println("Saldo: $" + cuenta.getSaldo());
+                    break;
+
+                case 5:
+                    System.out.println("Saliendo del sistema...");
                     break;
 
                 default:
